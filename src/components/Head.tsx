@@ -13,11 +13,9 @@ const Head: React.FC<IHead> = ({
   withMobileHide = false,
   onClick
 }) => {
-  const classNameRef = React.useRef(`${styles.head} ${withMobileHide ? styles.mobileHidden : ""}`);
-
   return (
     <div 
-      className={classNameRef.current} 
+      className={`${styles.head} ${withMobileHide ? styles.mobileHidden : ""}`} 
       style={style}
       onClick={() => {
         if (onClick) onClick();
