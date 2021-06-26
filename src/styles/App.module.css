@@ -1,0 +1,26 @@
+.page {
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tableWrapper {
+  margin: 0 auto;
+  max-width: 1000px;
+  width: 95%;
+}
+
+.loader,
+.errorMsg {
+  text-align: center;
+  margin: auto 0;
+}
+
+.errorMsg {
+  color: red;
+}
+
+#observableElement {
+  height: 50px;
+}
