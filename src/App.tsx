@@ -89,32 +89,30 @@ const App = ({ news, loadingNews, loadingNewsErrorMsg, fetchNews }: IApp) => {
   return (
     <div className={styles.page}>
       {
+        news &&
+        <div className={styles.tableWrapper} ref={tableWrapperRef}>
+          <Table
+            rowsData={rowsData}
+            headNames={["Time added", "Title", "Domain"]}
+            headsWithSort={["Time added", "Title", "Domain"]}
+            sortFunctions={[sortDateColumn]}
+            columnWidths={["15%", "auto", "auto"]}
+            columnsWithMobileHide={[0, 2]}
+            cellUrls={[[], cellUrls, []]}
+            mobileSortBtnData={{
+              name: "Sort by date",
+              sortedColumn: 0,
+            }}
+          />
+        </div>
+      }
+      {
         loadingNews
         ? <h3 className={styles.loader}>Loading news...</h3>
         : loadingNewsErrorMsg.length > 0
-        ? <h3 className={styles.errorMsg}>{loadingNewsErrorMsg}</h3>
-        : <div className={styles.tableWrapper} ref={tableWrapperRef}>
-            <Table
-              rowsData={rowsData}
-              headNames={["Time added", "Title", "Domain"]}
-              headsWithSort={["Time added", "Title", "Domain"]}
-              sortFunctions={[sortDateColumn]}
-              columnWidths={["15%", "auto", "auto"]}
-              columnsWithMobileHide={[0, 2]}
-              cellUrls={[[], cellUrls, []]}
-              mobileSortBtnData={{
-                name: "Sort by date",
-                sortedColumn: 0,
-              }}
-            />
-          </div>
-      }
-      <div
-        id={styles.observableElement}
-        ref={observableNodeRef}
-        style={{ display: loadingNews ? "none" : "block" }}
-      >
-      </div>
+        && <h3 className={styles.errorMsg}>{loadingNewsErrorMsg}</h3>
+      }    
+      <div id={styles.observableElement} ref={observableNodeRef}></div>
     </div>
   )
 }

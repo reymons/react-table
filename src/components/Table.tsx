@@ -30,6 +30,10 @@ const Table = ({
   const [thisRowsData, setThisRowsData] = React.useState(rowsData);
   const sortOrdersRef = React.useRef<Array<"ascending" | "descending">>(headNames.map(_ => "ascending"))
 
+  React.useEffect(() => {
+    setThisRowsData(rowsData);
+  }, [rowsData])
+
   const onHeadClick = React.useCallback((headIdx: number) => {
     const sortOrder = sortOrdersRef.current[headIdx];
     const newRowsData = [...rowsData];
