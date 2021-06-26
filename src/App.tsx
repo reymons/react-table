@@ -58,27 +58,33 @@ const App = ({ news, loadingNews, loadingNewsErrorMsg, fetchNews }: IApp) => {
     let timeA = Number(a.substring(0, a.indexOf(" ")));
     let timeB = Number(b.substring(0, b.indexOf(" ")));
 
-    if (a.includes("a day") || a.includes("an hour")) timeA = 1;
-    if (b.includes("a day") || b.includes("an hour")) timeB = 1;
+    const includesSingle = (data: string) => {
+      return data.includes("a day")
+        || data.includes("an hour")
+        || data.includes("a minute")
+        || data.includes("a second")
+    }
 
-    if (!Number.isNaN(timeA) && Number.isNaN(timeB)) return 1;
-    if (Number.isNaN(timeA) && !Number.isNaN(timeB)) return -1;
-    if (Number.isNaN(timeA) && Number.isNaN(timeB)) return 0;
+    if (includesSingle(a)) timeA = 1;
+    if (includesSingle(b)) timeB = 1;
 
-    const aIncludesDay = a.includes("day");
-    const bIncludesDay = b.includes("day");
+    const getPriority = (data: string) => {
+      return data.includes("year") ? 6
+        : data.includes("week") ? 5
+        : data.includes("day") ? 4
+        : data.includes("hour") ? 3
+        : data.includes("minute") ? 2
+        : data.includes("second") && 1 
+    }
 
-    if (aIncludesDay && bIncludesDay) return timeA - timeB;
+    const priorityA = getPriority(a);
+    const priorityB = getPriority(b);
 
-    const aIncludesHour = a.includes("hour");
-    const bIncludesHour = b.includes("hour");
-
-    if (aIncludesDay && bIncludesHour) return 1;
-    if (aIncludesHour && bIncludesDay) return -1;
-    if (aIncludesHour && bIncludesHour) return timeA - timeB;
+    if (priorityA > priorityB) return 1;
+    if (priorityB > priorityA) return -1;
 
     return timeA - timeB;
-  }, [])
+  }, []);
 
   return (
     <div className={styles.page}>
